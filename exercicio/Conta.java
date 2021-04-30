@@ -1,10 +1,11 @@
 package exercicio;
 import cidadao.Pessoa;
-public class Conta {
+public class Conta extends Pessoa {
 	
 	private double saldo;
 	private String num_conta;
 	private String tipo;
+	private String senha;
 	
 	public Conta() {
 		this.saldo = 0;
@@ -42,5 +43,20 @@ public class Conta {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 	
+	public boolean equals(Object o) {
+        if (o instanceof Conta) {
+            Conta outraConta = (Conta) o;
+            if (getNum_conta() != null)
+                return getNum_conta().equals(outraConta.getNum_conta());
+        }
+
+        return false;
+    }
 }

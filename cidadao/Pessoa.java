@@ -62,7 +62,8 @@ public class Pessoa {
 	                "RUA: " + endereço.getRua() + "\n" +
 	        		"Nº casa: " + endereço.getNumero() + "\n" +
 	        		"CEP: " + endereço.getCep() + "\n" +
-	        		"AGÊNCIA: 0631" + "\n";
+	        		"AGÊNCIA: 0631" + "\n" +
+	        		"Nº CONTA: " + conta.getNum_conta();
 	        		
 	    }	
 }
