@@ -10,6 +10,7 @@ public class Main {
     private static final Random RANDOM = new Random();
 	
 	public static void main(String[] args) {
+		
 		Scanner num = new Scanner(System.in);
 		Scanner scanner = new Scanner(System.in);
 		CadastroPessoa cadastro = new CadastroPessoa();
@@ -35,8 +36,8 @@ public class Main {
 			
 			Pessoa pessoa = new Pessoa();
 			Endereço endereço = new Endereço();
-			Conta conta = new Conta();
-			
+			ContaPoupança cp = new ContaPoupança();
+			ContaCorrente cc = new ContaCorrente();
 		
 			System.out.println("============ Criar Conta Bancária ===========");
 			System.out.println("Por favor, em vez de apertar o espaço no teclado, colocar o símbolo '_' como espaçamento. EXEMPLO: 'Mateus_Cesar'" + "\n\n");
@@ -74,20 +75,48 @@ public class Main {
 			String cep = scanner.next();
 			endereço.setCep(cep);
 			
-			conta.setNum_conta(contaAleatoria());
+	
+			System.out.println("Informe o tipo de conta que você deseja: " + "\n\n" + "[1] CONTA POUPANÇA" + "\n" + "[2] CONTA CORRENTE");
 			
-			System.out.println("Informe a senha da sua conta: ");
-			String senha = scanner.next();
-			conta.setSenha(senha);
+			int tipo = scanner.nextInt();
 			
-			pessoa.setConta(conta);
-			pessoa.setEndereço(endereço);
-			cadastro.registrar(pessoa);
-
+			if(tipo == 1) {
+				System.out.println("===== CONTA POUPANÇA =======");
+				
+				System.out.println("Informe a senha da sua conta: ");
+				String senha = scanner.next();
+				cp.setSenha(senha);
+				
+			
+				cp.setSelic(10);
+				cp.setNum_conta(contaAleatoria());
+				pessoa.setPoupança(cp);
+				pessoa.setEndereço(endereço);
+				cadastro.registrar(pessoa);
+				
+				System.out.println("O número da sua conta é: " + cp.getNum_conta());
+				
+			}else if(tipo == 2) {
+				
+				System.out.println("Informe a senha da sua conta: ");
+				String senha = scanner.next();
+				cc.setSenha(senha);
+				
+		
+				
+				cc.setNum_conta(contaAleatoria());
+				pessoa.setCorrente(cc);
+				pessoa.setEndereço(endereço);
+				cadastro.registrar(pessoa);
+				
+				System.out.println("O número da sua conta é: " + cc.getNum_conta());
+			}
 			
 			}else if(opc == 2){
 				
-				System.out.println("======== SALDO CONTA =======");
+				System.out.println("======== SALDO CONTA =======" + "\n");
+				System.out.println("Digite" + "\n" + "[1] - CONTA POUPANÇA" + "\n" + "[2] - CONTA CORRENTE");
+				int tipo = scanner.nextInt();
 				System.out.println("Informe a conta que você deseja ver o saldo: ");
 				String conta = scanner.next();
 				System.out.println("Informe a sua senha: ");
@@ -95,59 +124,88 @@ public class Main {
 				System.out.println("\n");
 				
 				for(Pessoa pessoa: cadastro.getPessoas()) {
-					if(conta.equals(pessoa.getConta().getNum_conta())) {
-							if(senha.equals(pessoa.getConta().getSenha())) {
+					if(tipo == 1) {
+						if(conta.equals(pessoa.getPoupança().getNum_conta()) ) {
+							if(senha.equals(pessoa.getPoupança().getSenha())) {
 								
 								System.out.println("NOME: " + pessoa.getNome());
-								System.out.println("SALDO: " + pessoa.getConta().getSaldo() + "\n");
+								System.out.println("SALDO: " + pessoa.getPoupança().getSaldo());
 								
+							}
+						}
+					}else if (tipo == 2) {
+						if(conta.equals(pessoa.getCorrente().getNum_conta())){
+							if(senha.equals(pessoa.getCorrente().getSenha())) {
+								
+								System.out.println("NOME: " + pessoa.getNome());
+								System.out.println("SALDO: " + pessoa.getCorrente().getSaldo());
+							}
 						}
 					}
 				}
 				
 			}else if(opc == 3) {
 				System.out.println("======= DADOS CLIENTE =======");
-				System.out.println("Informe o seu CPF:  ");
-				String cpf = scanner.next();
+				System.out.println("Informe a conta que você deseja ver o saldo: ");
+				String conta = scanner.next();
 				System.out.println("Informe a senha da sua conta: " + "\n");
 				String senha = scanner.next();
-				
+				System.out.println("Digite" + "\n" + "[1] - CONTA POUPANÇA" + "\n" + "[2] - CONTA CORRENTE" );
+				int tipo = scanner.nextInt();
+
 					for(Pessoa pessoa: cadastro.getPessoas()) {
 						
-							
-						if(cpf.equals(pessoa.getCpf())) {	
-							if(senha.equals(pessoa.getConta().getSenha())) {
-								
-							System.out.println("DADOS: "+ " \n" + pessoa.toString());
-						}else {
-							System.out.println("Senha incorreta!");
+						if(tipo == 1){
+							if(conta.equals(pessoa.getPoupança().getNum_conta())) {
+								if(senha.equals(pessoa.getPoupança().getSenha())) {
+									System.out.println(pessoa.toString1());
+								}
+							}
+						}else if(tipo == 2){
+							if(conta.equals(pessoa.getCorrente().getNum_conta())) {
+								if(senha.equals(pessoa.getCorrente().getSenha())) {
+									System.out.println(pessoa.toString2());
+								}
+							}
 						}
-					}
-				}
-		
-				
+					}		
 			}else if(opc == 4) {
 				
 				System.out.println("======= DEPOSITAR =======" + "\n");
+				
+				System.out.println("Digite" + "\n" + "[1] - CONTA POUPANÇA" + "\n" + "[2] - CONTA CORRENTE");
+				int tipo = scanner.nextInt();
 				
 				System.out.println("Informe a conta em que você deseja depositar: ");
 				String conta = scanner.next();
 				
 				System.out.println("Informe o valor a ser depositado: ");
-				double valor = scanner.nextFloat();
+				double valor = scanner.nextFloat(); 
+				
 				
 				
 				try {
 					for(Pessoa pessoa: cadastro.getPessoas()) {
-						if(conta.equals(pessoa.getConta().getNum_conta())) {
+						if(tipo == 1) {
+							if(conta.equals(pessoa.getPoupança().getNum_conta())) {
+								pessoa.getPoupança().depositar(valor);
+							}
+						}else if(tipo == 2) {
+							if(conta.equals(pessoa.getCorrente().getNum_conta())) {
+								pessoa.getCorrente().depositar(valor);
+							}
 						}
 					}
-					System.out.println("Transferência realizada com sucesso!");
+					
+					System.out.println("Depósito realizado com sucesso!");
 				}catch(Exception e) {
 					System.out.println("Deu erro no depósito");
 				}
+				
 			}else if(opc == 5) {
 					System.out.println("======= SACAR =======" + "\n");
+					System.out.println("Digite" + "\n" + "[1] - CONTA POUPANÇA" + "\n" + "[2] - CONTA CORRENTE");
+					int tipo = scanner.nextInt();
 					System.out.println("Informe a conta que você deseja sacar dinheiro: ");
 					String conta = scanner.next();
 					System.out.println("Informe o valor a ser sacado: ");
@@ -156,10 +214,21 @@ public class Main {
 					String senha = scanner.nextLine();
 					try {
 						for(Pessoa pessoa: cadastro.getPessoas()) {
-							if(conta.equals(pessoa.getConta().getNum_conta())) {
-								if(senha.equals(pessoa.getConta().getSenha())) {
-									pessoa.getConta().sacar(valor);
-									System.out.println("Transferência realizada com sucesso!");
+							if(tipo == 1) {
+								if(conta.equals(pessoa.getPoupança().getNum_conta())) {
+									if(senha.equals(pessoa.getPoupança().getSenha())) {
+										pessoa.getPoupança().sacar(valor);
+									}else{
+										System.out.println("Senha incorreta, tente novamente.");
+									}
+								}else {
+									System.out.println("Dados incorretos, tente novamente.");
+								}
+							}else if(tipo == 2) {
+								if(conta.equals(pessoa.getCorrente().getNum_conta())) {
+									if(senha.equals(pessoa.getCorrente().getSenha())) {
+										pessoa.getCorrente().sacar(valor);
+									}
 								}
 							}
 						}
@@ -168,6 +237,8 @@ public class Main {
 				}
 			}else if(opc == 6 ) {
 				System.out.println("========== TRANSFERÊNCIA ==========");
+					System.out.println("Informe o seu CPF");
+					String cpf = scanner.next();
 					System.out.println("Informe a sua conta: ");
 					String conta = scanner.next();
 					System.out.println("Informe a conta para qual você deseja transferir: ");
@@ -180,13 +251,13 @@ public class Main {
 					try {
 						for(Pessoa pessoa: cadastro.getPessoas()) {
 							
-							if(conta.equals(pessoa.getConta().getNum_conta())) {
-								if(senha.equals(pessoa.getConta().getSenha())) {
-									pessoa.getConta().sacar(valor);
+							if(cpf.equals(pessoa.getCpf())) {
+								if(senha.equals(pessoa.getPoupança().getSenha())) {
+									pessoa.getPoupança().sacar(valor);
 								}		
 							}
-								if(conta2.equals(pessoa.getConta().getNum_conta())) {
-									pessoa.getConta().depositar(valor);
+								if(conta2.equals(pessoa.getCorrente().getNum_conta())) {
+									pessoa.getCorrente().depositar(valor);
 									System.out.println("Transferência realizada com sucesso!");
 								
 							}
@@ -196,16 +267,27 @@ public class Main {
 					}	
 				}else if(opc == 7) {
 					System.out.println("======= ENCERRAR CONTA ========");
+					System.out.println("Digite" + "\n" + "[1] - CONTA POUPANÇA" + "\n" + "[2] - CONTA CORRENTE");
+					int tipo = scanner.nextInt();
 					System.out.println("Informe a conta que você deseja encerrar: ");
 					String conta = scanner.next();
 					System.out.println("Informe a senha da conta para confirmar a ação: ");
 					String senha = scanner.next();
 					
 					for(Pessoa pessoa: cadastro.getPessoas()) {
-						if(conta.equals(pessoa.getConta().getNum_conta())) {
-							if(senha.equals(pessoa.getConta().getSenha())) {
-							cadastro.getPessoas().remove(pessoa);
-							System.out.println("CONTA ENCERRADA COM SUCESSO!");
+						if(tipo == 1 ) {
+							if(conta.equals(pessoa.getPoupança().getNum_conta())) {
+								if(senha.equals(pessoa.getPoupança().getSenha())){
+									cadastro.getPessoas().remove(pessoa);
+									System.out.println("CONTA REMOVIDA COM SUCESSO!");
+								}
+							}
+						}else if(tipo == 2) {
+							if(conta.equals(pessoa.getCorrente().getNum_conta())) {
+								if(senha.equals(pessoa.getCorrente().getSenha())){
+									cadastro.getPessoas().remove(pessoa);
+									System.out.println("CONTA REMOVIDA COM SUCESSO!");
+								}
 							}
 						}
 					}			
