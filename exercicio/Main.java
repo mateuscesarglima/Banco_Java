@@ -232,8 +232,10 @@ public class Main {
 								if(conta.equals(pessoa.getPoupança().getNum_conta())) {
 									if(senha.equals(pessoa.getPoupança().getSenha())) {
 										pessoa.getPoupança().sacar(valor);
+										System.out.println("\n");
 										System.out.println("Saque realizado com sucesso!");
 									}else{
+										System.out.println("\n");
 										System.out.println("Senha incorreta, tente novamente.");
 									}
 								}
@@ -241,8 +243,10 @@ public class Main {
 								if(conta.equals(pessoa.getCorrente().getNum_conta())) {
 									if(senha.equals(pessoa.getCorrente().getSenha())) {
 										pessoa.getCorrente().sacar(valor);
+										System.out.println("\n");
 										System.out.println("Saque realizado com sucesso!");
 									}else{
+										System.out.println("\n");
 										System.out.println("Senha inválida!");
 									}
 								}
