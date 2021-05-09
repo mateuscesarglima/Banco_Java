@@ -137,7 +137,10 @@ public class Main {
 							if(senha.equals(pessoa.getPoupança().getSenha())) {
 								
 								System.out.println("NOME: " + pessoa.getNome());
-								System.out.println("SALDO: " + pessoa.getPoupança().getSaldo());
+								System.out.println("Saldo sem rendimento: " + pessoa.getPoupança().getSaldo());
+								pessoa.getPoupança().calcularRendimento();
+								System.out.println("SALDO com rendimento: " + pessoa.getPoupança().getSaldo());
+								
 								
 							}
 						}
@@ -212,7 +215,7 @@ public class Main {
 						}
 					}
 
-				}catch(Exception e) {
+				}catch(DepositoNegativoErro e) {
 					System.out.println("Deu erro no depósito");
 				}
 				
